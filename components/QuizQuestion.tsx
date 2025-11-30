@@ -5,6 +5,7 @@ interface QuizQuestionProps {
   question: Question;
   selectedOptionIndex?: number;
   onSelectOption: (optionIndex: number) => void;
+  onPrevious?: () => void;
   currentNumber: number;
   totalCount: number;
 }
@@ -13,11 +14,12 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
   question,
   selectedOptionIndex,
   onSelectOption,
+  onPrevious,
   currentNumber,
   totalCount,
 }) => {
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 animate-fade-in">
+    <div className="w-full max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 animate-fade-in relative">
       <div className="mb-4 flex items-center justify-between">
         <span className="text-sm font-bold text-primary tracking-wide bg-blue-50 px-3 py-1 rounded-full">
           Q{currentNumber} / {totalCount}
@@ -55,6 +57,20 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
           </button>
         ))}
       </div>
+
+      {onPrevious && (
+        <div className="mt-8 pt-4 border-t border-slate-100 flex justify-start">
+          <button
+            onClick={onPrevious}
+            className="text-slate-500 hover:text-slate-900 font-medium flex items-center px-4 py-2 rounded-lg hover:bg-slate-100 transition-colors"
+          >
+            <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            이전 문제
+          </button>
+        </div>
+      )}
     </div>
   );
 };

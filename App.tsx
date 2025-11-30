@@ -47,6 +47,12 @@ const App: React.FC = () => {
     }
   };
 
+  const handlePrevious = () => {
+    if (currentQuestionIdx > 0) {
+      setCurrentQuestionIdx(prev => prev - 1);
+    }
+  };
+
   const finishQuiz = useCallback(async (lastAnswerIdx: number) => {
     if (!selectedRole) return;
     
@@ -194,6 +200,7 @@ const App: React.FC = () => {
           question={currentQuestion}
           selectedOptionIndex={answers[currentQuestion.id]}
           onSelectOption={handleAnswerSelect}
+          onPrevious={currentQuestionIdx > 0 ? handlePrevious : undefined}
           currentNumber={currentQuestionIdx + 1}
           totalCount={questions.length}
         />
