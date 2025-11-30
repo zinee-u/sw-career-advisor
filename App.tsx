@@ -102,11 +102,11 @@ const App: React.FC = () => {
         </svg>
       </div>
       <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900">
-        Tech<span className="text-primary">Ready</span> KR
+        Zi <span className="text-primary">Advisor</span>
       </h1>
       <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
         대한민국 이공계 취업 준비생을 위한<br className="md:hidden" /> 직무 역량 진단 서비스입니다.<br/>
-        간단한 퀴즈를 통해 당신의 현재 준비도와 보완점을 AI가 분석해드립니다.
+        간단한 퀴즈를 통해 당신의 현재 준비도와 보완점을 ZI가 분석해드립니다.
       </p>
       <div className="pt-8">
          <button onClick={handleStart} className="px-8 py-4 bg-primary text-white text-xl font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:bg-blue-600 hover:shadow-blue-500/40 transition-all transform hover:-translate-y-1 active:translate-y-0">
@@ -219,7 +219,7 @@ const App: React.FC = () => {
       <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="font-bold text-xl cursor-pointer" onClick={() => step !== 'analyzing' && handleRestart()}>
-            Tech<span className="text-primary">Ready</span>
+            Zi <span className="text-primary">Advisor</span>
           </div>
           {step !== 'landing' && userProfile.name && (
             <div className="text-sm font-medium text-slate-500">
@@ -254,7 +254,7 @@ const App: React.FC = () => {
 
       <footer className="w-full bg-white py-6 border-t border-slate-200 mt-auto">
         <div className="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400">
-          <p>&copy; {new Date().getFullYear()} TechReady KR. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Zi Advisor All rights reserved.</p>
           <p className="mt-1">Powered by Google Gemini API</p>
         </div>
       </footer>
