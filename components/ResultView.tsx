@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AnalysisResponse, UserProfile, JobRole } from '../types';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 interface ResultViewProps {
   analysis: AnalysisResponse;
@@ -10,120 +12,187 @@ interface ResultViewProps {
 }
 
 export const ResultView: React.FC<ResultViewProps> = ({ analysis, userProfile, role, onRestart }) => {
-  
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+
+  // Total questions is now 20
+  const totalQuestions = 20;
   const scoreData = [
     { name: 'Score', value: analysis.totalScore },
-    { name: 'Remaining', value: 10 - analysis.totalScore },
+    { name: 'Remaining', value: totalQuestions - analysis.totalScore },
   ];
   const COLORS = ['#3b82f6', '#e2e8f0'];
 
-  return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up pb-12">
+  const handleDownloadPDF = async () => {
+    const element = document.getElementById('report-container');
+    if (!element) return;
+
+    setIsGeneratingPdf(true);
+    try {
+      // Small timeout to allow UI update
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
       
-      {/* Header Section */}
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-10 text-center relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-indigo-500" />
-        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">
-          진단 결과 리포트
-        </h1>
-        <p className="text-slate-500 text-lg">
-          <span className="font-semibold text-slate-800">{userProfile.name}</span>님 ({userProfile.age}세)의 <span className="text-primary font-bold">{role}</span> 직무 준비도
-        </p>
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 10;
 
-        <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-          <div className="relative w-48 h-48">
-             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={scoreData}
-                  innerRadius={60}
-                  outerRadius={80}
-                  startAngle={90}
-                  endAngle={-270}
-                  dataKey="value"
-                >
-                  {scoreData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-bold text-slate-800">{analysis.totalScore * 10}</span>
-              <span className="text-xs text-slate-400 uppercase font-semibold">Ready Score</span>
+      // Adjust height to fit page, if it's too long, we might just scale to fit A4 width
+      const finalImgWidth = pdfWidth - 20; // 10mm margin
+      const finalImgHeight = (imgHeight * finalImgWidth) / imgWidth;
+
+      pdf.addImage(imgData, 'PNG', 10, 10, finalImgWidth, finalImgHeight);
+      pdf.save(`${userProfile.name}_${role}_ZiAdvisor_Report.pdf`);
+    } catch (error) {
+      console.error('PDF Generation Failed', error);
+      alert('PDF 생성에 실패했습니다.');
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up pb-12 w-full">
+      
+      {/* Content to be captured */}
+      <div id="report-container" className="space-y-8 bg-slate-50 p-4 md:p-8">
+        {/* Header Section */}
+        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-10 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-indigo-500" />
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">
+            진단 결과 리포트
+          </h1>
+          <p className="text-slate-500 text-lg">
+            <span className="font-semibold text-slate-800">{userProfile.name}</span>님 ({userProfile.age}세)의 <span className="text-primary font-bold">{role}</span> 직무 준비도
+          </p>
+
+          <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+            <div className="relative w-48 h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={scoreData}
+                    innerRadius={60}
+                    outerRadius={80}
+                    startAngle={90}
+                    endAngle={-270}
+                    dataKey="value"
+                  >
+                    {scoreData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-4xl font-bold text-slate-800">{Math.round((analysis.totalScore / totalQuestions) * 100)}</span>
+                <span className="text-xs text-slate-400 uppercase font-semibold">Ready Score</span>
+              </div>
+            </div>
+            
+            <div className="text-left space-y-2">
+              <div className="text-sm text-slate-400 font-semibold uppercase tracking-wider">직무 이해도 레벨</div>
+              <div className="text-4xl font-bold text-indigo-600">{analysis.readinessLevel}</div>
+              <p className="text-slate-600 max-w-xs text-sm leading-relaxed mt-2">
+                총 {totalQuestions}문제 중 {analysis.totalScore}문제를 맞히셨습니다.
+              </p>
             </div>
           </div>
-          
-          <div className="text-left space-y-2">
-            <div className="text-sm text-slate-400 font-semibold uppercase tracking-wider">직무 이해도 레벨</div>
-            <div className="text-4xl font-bold text-indigo-600">{analysis.readinessLevel}</div>
-            <p className="text-slate-600 max-w-xs text-sm leading-relaxed mt-2">
-              총 10문제 중 {analysis.totalScore}문제를 맞히셨습니다.
-            </p>
+        </div>
+
+        {/* Feedback Summary */}
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+          <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center">
+            <svg className="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            종합 피드백
+          </h3>
+          <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
+            {analysis.feedbackSummary}
+          </p>
+        </div>
+
+        {/* Grid for Strengths & Weaknesses */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-green-50/50 rounded-2xl p-6 border border-green-100">
+            <h3 className="text-green-800 font-bold mb-4 flex items-center">
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              강점 (Strengths)
+            </h3>
+            <ul className="space-y-2">
+              {analysis.strengths.map((s, i) => (
+                <li key={i} className="flex items-start text-green-700 text-sm">
+                  <span className="mr-2 mt-1.5 w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0"></span>
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-red-50/50 rounded-2xl p-6 border border-red-100">
+            <h3 className="text-red-800 font-bold mb-4 flex items-center">
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+              보완할 점 (Weaknesses)
+            </h3>
+            <ul className="space-y-2">
+              {analysis.weaknesses.map((w, i) => (
+                <li key={i} className="flex items-start text-red-700 text-sm">
+                  <span className="mr-2 mt-1.5 w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0"></span>
+                  {w}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Action Plan */}
+        <div className="bg-indigo-50 rounded-2xl p-8 border border-indigo-100">
+          <h3 className="text-lg font-bold text-indigo-900 mb-6">🚀 학습 로드맵 제안</h3>
+          <div className="space-y-4">
+            {analysis.actionPlan.map((plan, i) => (
+              <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-indigo-100 flex items-center">
+                <span className="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-sm mr-4">
+                  {i + 1}
+                </span>
+                <span className="text-slate-700 font-medium">{plan}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Feedback Summary */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
-        <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center">
-          <svg className="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          종합 피드백
-        </h3>
-        <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
-          {analysis.feedbackSummary}
-        </p>
-      </div>
-
-      {/* Grid for Strengths & Weaknesses */}
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-green-50/50 rounded-2xl p-6 border border-green-100">
-          <h3 className="text-green-800 font-bold mb-4 flex items-center">
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            강점 (Strengths)
-          </h3>
-          <ul className="space-y-2">
-            {analysis.strengths.map((s, i) => (
-              <li key={i} className="flex items-start text-green-700 text-sm">
-                <span className="mr-2 mt-1.5 w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0"></span>
-                {s}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="bg-red-50/50 rounded-2xl p-6 border border-red-100">
-          <h3 className="text-red-800 font-bold mb-4 flex items-center">
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-            보완할 점 (Weaknesses)
-          </h3>
-          <ul className="space-y-2">
-            {analysis.weaknesses.map((w, i) => (
-              <li key={i} className="flex items-start text-red-700 text-sm">
-                <span className="mr-2 mt-1.5 w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0"></span>
-                {w}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Action Plan */}
-      <div className="bg-indigo-50 rounded-2xl p-8 border border-indigo-100">
-        <h3 className="text-lg font-bold text-indigo-900 mb-6">🚀 학습 로드맵 제안</h3>
-        <div className="space-y-4">
-          {analysis.actionPlan.map((plan, i) => (
-            <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-indigo-100 flex items-center">
-              <span className="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-sm mr-4">
-                {i + 1}
-              </span>
-              <span className="text-slate-700 font-medium">{plan}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex justify-center pt-8">
+      <div className="flex flex-col md:flex-row justify-center gap-4 pt-4 px-4">
+        <button
+          onClick={handleDownloadPDF}
+          disabled={isGeneratingPdf}
+          className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-bold shadow-lg hover:bg-indigo-700 transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isGeneratingPdf ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              PDF 생성 중...
+            </>
+          ) : (
+            <>
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              PDF로 저장하기
+            </>
+          )}
+        </button>
         <button
           onClick={onRestart}
           className="px-8 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-lg hover:bg-slate-800 transition-transform transform hover:-translate-y-1 active:translate-y-0"

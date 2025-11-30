@@ -18,15 +18,19 @@ export const analyzeResult = async (result: QuizResult): Promise<AnalysisRespons
   let detailedReport = `Role: ${result.role}\n`;
   detailedReport += `User: ${result.userProfile.name} (Age: ${result.userProfile.age})\n`;
   detailedReport += `Score: ${userScore}/${maxScore}\n\n`;
-  detailedReport += `Question Breakdown:\n`;
+  detailedReport += `Question Breakdown (Incorrect Answers Highlighted):\n`;
 
+  // Filter only incorrect answers or specific categories to save tokens if list is too long,
+  // but for 20 questions, sending all is fine for context.
   roleQuestions.forEach(q => {
     const selectedIdx = result.answers[q.id];
     const isCorrect = selectedIdx === q.correctIndex;
-    detailedReport += `- [${isCorrect ? 'CORRECT' : 'WRONG'}] Q: ${q.text} (Category: ${q.category})\n`;
     if (!isCorrect) {
+      detailedReport += `[WRONG] Q: ${q.text} (Category: ${q.category})\n`;
       detailedReport += `  User Selected: ${q.options[selectedIdx] ?? 'No Answer'}\n`;
       detailedReport += `  Correct Answer: ${q.options[q.correctIndex]}\n`;
+    } else {
+       detailedReport += `[CORRECT] Category: ${q.category}\n`;
     }
   });
 
@@ -42,13 +46,19 @@ export const analyzeResult = async (result: QuizResult): Promise<AnalysisRespons
     The tone should be professional, encouraging, yet critical where necessary.
     
     Calculated Score: ${userScore} out of ${maxScore}. 
-    Use this score to help determine the 'readinessLevel'.
+    
+    Criteria:
+    - 0~8: 입문 필요 (Needs Basic Study)
+    - 9~14: 주니어 준비 중 (Developing)
+    - 15~20: 실무 투입 가능 (Ready for Job)
+
+    Use this score to help determine the 'readinessLevel' and provide specific feedback based on the categories they missed.
   `;
 
   const schema: Schema = {
     type: Type.OBJECT,
     properties: {
-      totalScore: { type: Type.NUMBER, description: "The raw score out of 10" },
+      totalScore: { type: Type.NUMBER, description: "The raw score out of 20" },
       readinessLevel: { type: Type.STRING, description: "One of: '학습 필요', '기초 부족', '주니어 레벨', '실무 투입 가능'" },
       strengths: { 
         type: Type.ARRAY, 
@@ -86,8 +96,6 @@ export const analyzeResult = async (result: QuizResult): Promise<AnalysisRespons
 
     if (response.text) {
       const parsedData = JSON.parse(response.text) as AnalysisResponse;
-      // Ensure the score matches the raw calculation, though Gemini usually gets it right if provided.
-      // We can trust the passed prompt data but let's override totalScore just in case to be safe locally.
       return {
         ...parsedData,
         totalScore: userScore
@@ -97,7 +105,6 @@ export const analyzeResult = async (result: QuizResult): Promise<AnalysisRespons
     }
   } catch (error) {
     console.error("Gemini Analysis Failed:", error);
-    // Fallback response if API fails
     return {
       totalScore: userScore,
       readinessLevel: "분석 불가",

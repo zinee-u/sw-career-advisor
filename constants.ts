@@ -77,150 +77,360 @@ export const QUESTIONS: Record<JobRole, Question[]> = {
       options: ["Promise.all은 하나만 성공해도 종료된다.", "Promise.race는 모든 프로미스가 완료될 때까지 기다린다.", "Promise.all은 모든 프로미스가 이행(fulfilled)되거나, 하나라도 거부(rejected)되면 종료된다.", "Promise.race는 항상 가장 늦게 끝나는 작업을 반환한다."],
       correctIndex: 2,
       category: "Async Programming"
+    },
+    {
+      id: 11,
+      text: "JavaScript 이벤트 루프(Event Loop)에서 마이크로 태스크(Microtask) 큐에 들어가는 작업이 아닌 것은?",
+      options: ["Promise.then", "MutationObserver", "setTimeout", "queueMicrotask"],
+      correctIndex: 2,
+      category: "JavaScript Core"
+    },
+    {
+      id: 12,
+      text: "쿠키(Cookie)와 로컬 스토리지(Local Storage)의 가장 큰 차이점 중 하나는?",
+      options: ["쿠키는 클라이언트에 저장되지 않는다.", "로컬 스토리지는 만료 기한이 있어 자동으로 삭제된다.", "쿠키는 모든 HTTP 요청 시 헤더에 포함되어 서버로 전송된다.", "로컬 스토리지는 용량 제한이 없다."],
+      correctIndex: 2,
+      category: "Browser Storage"
+    },
+    {
+      id: 13,
+      text: "React Virtual DOM이 실제 DOM보다 빠른 이유는?",
+      options: ["메모리를 사용하지 않기 때문에", "브라우저 엔진을 거치지 않기 때문에", "변경된 부분만 실제 DOM에 한 번에 적용(Batch Update)하여 리렌더링 연산을 최소화하기 때문에", "C++로 작성되었기 때문에"],
+      correctIndex: 2,
+      category: "React"
+    },
+    {
+      id: 14,
+      text: "웹 접근성(Web Accessibility) 향상을 위해 이미지 태그에 반드시 포함해야 하는 속성은?",
+      options: ["title", "alt", "data-desc", "aria-hidden"],
+      correctIndex: 1,
+      category: "HTML/Accessibility"
+    },
+    {
+      id: 15,
+      text: "CSS Flexbox에서 아이템들을 주축(Main Axis) 방향으로 정렬할 때 사용하는 속성은?",
+      options: ["align-items", "justify-content", "align-content", "flex-direction"],
+      correctIndex: 1,
+      category: "CSS"
+    },
+    {
+      id: 16,
+      text: "HTTPS 통신 과정에서 SSL Handshake가 수행하는 주된 역할은?",
+      options: ["데이터베이스 연결", "DNS 조회", "서버 인증 및 암호화 키 교환", "HTML 파싱"],
+      correctIndex: 2,
+      category: "Network/Security"
+    },
+    {
+      id: 17,
+      text: "JavaScript에서 'this' 바인딩이 결정되는 시점은?",
+      options: ["함수가 작성될 때 (Lexical)", "함수가 호출될 때 (Dynamic)", "컴파일 될 때", "변수가 선언될 때"],
+      correctIndex: 1,
+      category: "JavaScript Core"
+    },
+    {
+      id: 18,
+      text: "Webpack과 같은 모듈 번들러를 사용하는 이유가 아닌 것은?",
+      options: ["여러 개의 JS 파일을 하나로 합쳐 네트워크 요청 횟수를 줄이기 위해", "최신 문법(ES6+)을 구형 브라우저 호환 코드로 변환(Transpiling)하기 위해", "데이터베이스 쿼리를 최적화하기 위해", "이미지, CSS 등 정적 자원을 모듈처럼 관리하기 위해"],
+      correctIndex: 2,
+      category: "Build Tools"
+    },
+    {
+      id: 19,
+      text: "브라우저 캐싱 전략 중, 리소스가 변경되었는지 확인하기 위해 서버에 유효성을 검사하는 헤더는?",
+      options: ["Content-Type", "ETag", "Set-Cookie", "User-Agent"],
+      correctIndex: 1,
+      category: "Network"
+    },
+    {
+      id: 20,
+      text: "디자인 패턴 중, 객체의 상태 변화를 관찰하고 있다가 변화가 생기면 연관된 객체들에게 알림을 보내는 패턴은?",
+      options: ["Singleton Pattern", "Factory Pattern", "Observer Pattern", "Strategy Pattern"],
+      correctIndex: 2,
+      category: "Design Pattern"
     }
   ],
   [JobRole.BACKEND]: [
     {
-      id: 11,
+      id: 21,
       text: "RDBMS에서 Index를 사용하는 주된 목적은?",
       options: ["데이터의 중복 저장을 방지하기 위해", "테이블의 검색 속도를 향상시키기 위해", "데이터 무결성을 보장하기 위해", "데이터베이스 용량을 줄이기 위해"],
       correctIndex: 1,
       category: "Database"
     },
     {
-      id: 12,
+      id: 22,
       text: "ACID 트랜잭션 속성 중 'Atomicity(원자성)'의 의미는?",
       options: ["트랜잭션이 완료된 후 데이터는 일관되어야 한다.", "트랜잭션 내의 모든 연산은 모두 수행되거나, 아예 수행되지 않아야 한다(All or Nothing).", "동시에 실행되는 트랜잭션은 서로 영향을 주지 않아야 한다.", "트랜잭션 결과는 영구적으로 반영되어야 한다."],
       correctIndex: 1,
       category: "Database"
     },
     {
-      id: 13,
+      id: 23,
       text: "REST API에서 리소스의 '수정(전체 교체)'을 의미하는 HTTP 메서드는?",
       options: ["GET", "POST", "PATCH", "PUT"],
       correctIndex: 3,
       category: "Network"
     },
     {
-      id: 14,
+      id: 24,
       text: "JWT(Json Web Token)의 구성 요소가 아닌 것은?",
       options: ["Header", "Payload", "Signature", "Session ID"],
       correctIndex: 3,
       category: "Authentication"
     },
     {
-      id: 15,
+      id: 25,
       text: "Scale-up과 Scale-out의 차이점은?",
       options: ["Scale-up은 서버 대수를 늘리는 것이고, Scale-out은 서버 성능을 높이는 것이다.", "Scale-up은 서버 자체의 성능(CPU, RAM)을 높이는 것이고, Scale-out은 서버 대수를 늘려 부하를 분산하는 것이다.", "둘 다 동일한 개념이다.", "Scale-out은 데이터베이스 용량만 늘리는 것이다."],
       correctIndex: 1,
       category: "Architecture"
     },
     {
-      id: 16,
+      id: 26,
       text: "OSI 7계층 중 전송 계층(Transport Layer)에 해당하는 프로토콜은?",
       options: ["IP, ICMP", "HTTP, FTP", "TCP, UDP", "Ethernet, Wi-Fi"],
       correctIndex: 2,
       category: "Network"
     },
     {
-      id: 17,
+      id: 27,
       text: "Docker 컨테이너와 가상머신(VM)의 가장 큰 차이점은?",
       options: ["Docker는 OS 커널을 공유하지만 VM은 게스트 OS를 별도로 가진다.", "VM이 더 가볍고 실행 속도가 빠르다.", "Docker는 리눅스에서만 실행 가능하다.", "VM은 격리된 환경을 제공하지 않는다."],
       correctIndex: 0,
       category: "DevOps"
     },
     {
-      id: 18,
+      id: 28,
       text: "다음 중 NoSQL 데이터베이스에 해당하는 것은?",
       options: ["MySQL", "PostgreSQL", "MongoDB", "Oracle"],
       correctIndex: 2,
       category: "Database"
     },
     {
-      id: 19,
+      id: 29,
       text: "CI/CD 파이프라인에서 CI(Continuous Integration)가 의미하는 것은?",
       options: ["지속적인 서비스 배포", "코드 변경 사항을 주기적으로 빌드 및 테스트하여 통합하는 과정", "서버 모니터링 자동화", "고객 피드백 수집"],
       correctIndex: 1,
       category: "DevOps"
     },
     {
-      id: 20,
+      id: 30,
       text: "프로세스와 스레드의 차이점 중 틀린 것은?",
       options: ["프로세스는 독립적인 메모리 영역을 가진다.", "스레드는 프로세스 내의 힙(Heap) 메모리를 공유한다.", "스레드 간의 문맥 교환(Context Switch) 비용이 프로세스보다 크다.", "하나의 프로세스는 여러 개의 스레드를 가질 수 있다."],
       correctIndex: 2,
       category: "OS"
+    },
+    {
+      id: 31,
+      text: "분산 시스템 이론인 CAP 정리(Theorem)의 구성 요소가 아닌 것은?",
+      options: ["Consistency (일관성)", "Availability (가용성)", "Performance (성능)", "Partition Tolerance (분할 허용)"],
+      correctIndex: 2,
+      category: "System Design"
+    },
+    {
+      id: 32,
+      text: "SQL Injection 공격을 막기 위한 가장 기본적인 방법은?",
+      options: ["비밀번호를 평문으로 저장한다.", "PreparedStatement(Parameterized Query)를 사용한다.", "데이터베이스 포트를 변경한다.", "GET 요청만 사용한다."],
+      correctIndex: 1,
+      category: "Security"
+    },
+    {
+      id: 33,
+      text: "로드 밸런서(Load Balancer) 중 L4와 L7의 주된 차이점은?",
+      options: ["L4는 IP/Port 기반, L7은 애플리케이션 계층(URL, 쿠키 등) 내용을 기반으로 분산한다.", "L4가 더 느리고 비싸다.", "L7은 TCP/UDP 패킷만 분석한다.", "차이점이 없다."],
+      correctIndex: 0,
+      category: "Network"
+    },
+    {
+      id: 34,
+      text: "Redis와 같은 인메모리(In-Memory) 캐시를 사용할 때 주의해야 할 'Cache Stampede(Thundering Herd)' 현상은?",
+      options: ["캐시 용량이 가득 차는 현상", "캐시 만료 시점에 다수의 요청이 동시에 DB로 몰려 부하가 급증하는 현상", "데이터가 영구적으로 삭제되는 현상", "캐시 키가 중복되는 현상"],
+      correctIndex: 1,
+      category: "System Design"
+    },
+    {
+      id: 35,
+      text: "비동기 메시지 큐(Message Queue - Kafka, RabbitMQ)를 사용하는 이유로 적절하지 않은 것은?",
+      options: ["서비스 간 결합도(Coupling)를 낮추기 위해", "트래픽 폭주 시 버퍼링(Buffering) 역할을 하기 위해", "즉각적인 응답(Real-time Response)이 필요한 동기 처리를 위해", "비동기 작업을 처리하기 위해"],
+      correctIndex: 2,
+      category: "Architecture"
+    },
+    {
+      id: 36,
+      text: "데이터베이스 정규화(Normalization)의 주된 목적은?",
+      options: ["쿼리 성능을 최대로 높이기 위해", "데이터 중복을 최소화하고 이상 현상(Anomaly)을 방지하기 위해", "테이블 개수를 줄이기 위해", "백업을 빠르게 하기 위해"],
+      correctIndex: 1,
+      category: "Database"
+    },
+    {
+      id: 37,
+      text: "교착 상태(Deadlock)의 발생 조건 4가지에 해당하지 않는 것은?",
+      options: ["상호 배제 (Mutual Exclusion)", "점유 대기 (Hold and Wait)", "비선점 (No Preemption)", "선점 허용 (Preemption Allowed)"],
+      correctIndex: 3,
+      category: "OS"
+    },
+    {
+      id: 38,
+      text: "OAuth 2.0 인증 방식에서 'Access Token'의 역할은?",
+      options: ["사용자의 비밀번호를 대체하여 로그인한다.", "리소스 서버의 보호된 자원에 접근할 수 있는 권한을 증명한다.", "DB 관리자 권한을 획득한다.", "네트워크 암호화를 담당한다."],
+      correctIndex: 1,
+      category: "Authentication"
+    },
+    {
+      id: 39,
+      text: "gRPC 프로토콜의 특징으로 틀린 것은?",
+      options: ["Google이 개발한 오픈소스 RPC 프레임워크다.", "HTTP/2를 기반으로 동작한다.", "데이터 전송 포맷으로 주로 JSON을 사용한다.", "Protocol Buffers를 IDL(Interface Description Language)로 사용한다."],
+      correctIndex: 2,
+      category: "Network"
+    },
+    {
+      id: 40,
+      text: "데이터베이스에서 '커버링 인덱스(Covering Index)'란 무엇인가?",
+      options: ["모든 컬럼에 인덱스를 거는 것", "쿼리에 필요한 모든 컬럼이 인덱스에 포함되어 있어, 실제 테이블 조회 없이 인덱스만으로 쿼리를 완료하는 것", "인덱스가 손상되었을 때 복구하는 기술", "가장 용량이 큰 인덱스"],
+      correctIndex: 1,
+      category: "Database"
     }
   ],
   [JobRole.EMBEDDED]: [
     {
-      id: 21,
+      id: 41,
       text: "volatile 키워드의 용도로 가장 적절한 것은?",
       options: ["변수를 상수로 선언할 때", "컴파일러 최적화를 방지하고 항상 메모리에서 값을 읽도록 강제할 때", "메모리 할당을 동적으로 할 때", "함수의 반환값을 무시할 때"],
       correctIndex: 1,
       category: "C Language"
     },
     {
-      id: 22,
+      id: 42,
       text: "RTOS(Real-Time Operating System)의 가장 중요한 특징은?",
       options: ["화려한 그래픽 인터페이스 제공", "정해진 시간(Deadline) 내에 작업 수행을 보장하는 결정성(Determinism)", "무제한 멀티태스킹", "대용량 데이터 처리 속도"],
       correctIndex: 1,
       category: "RTOS"
     },
     {
-      id: 23,
+      id: 43,
       text: "인터럽트(Interrupt) 처리 루틴(ISR) 작성 시 주의할 점으로 틀린 것은?",
       options: ["가능한 짧고 빠르게 수행되어야 한다.", "긴 지연(delay) 함수를 사용하면 안 된다.", "우선순위가 낮은 인터럽트는 무시해도 된다.", "공유 자원 접근 시 경쟁 조건(Race Condition)을 고려해야 한다."],
       correctIndex: 2,
       category: "Interrupts"
     },
     {
-      id: 24,
+      id: 44,
       text: "I2C 통신 프로토콜의 특징이 아닌 것은?",
       options: ["2개의 선(SDA, SCL)만 사용한다.", "Full Duplex(전이중) 통신을 지원한다.", "Master-Slave 구조를 가진다.", "각 장치는 고유한 주소를 가진다."],
       correctIndex: 1,
       category: "Communication"
     },
     {
-      id: 25,
+      id: 45,
       text: "메모리 영역 중 지역 변수와 매개 변수가 저장되는 곳은?",
       options: ["Code (Text)", "Data", "Heap", "Stack"],
       correctIndex: 3,
       category: "Memory"
     },
     {
-      id: 26,
+      id: 46,
       text: "Watchdog Timer(WDT)의 역할은?",
       options: ["현재 시간을 측정한다.", "시스템 오류로 인해 프로그램이 멈추거나 무한 루프에 빠졌을 때 시스템을 리셋한다.", "외부 통신 속도를 조절한다.", "배터리 전압을 감시한다."],
       correctIndex: 1,
       category: "MCU Peripherals"
     },
     {
-      id: 27,
+      id: 47,
       text: "리틀 엔디안(Little Endian) 시스템에서 0x12345678을 메모리에 저장할 때 낮은 주소부터 저장되는 순서는?",
       options: ["12 34 56 78", "78 56 34 12", "78 12 34 56", "34 12 78 56"],
       correctIndex: 1,
       category: "Computer Architecture"
     },
     {
-      id: 28,
+      id: 48,
       text: "Mutex와 Semaphore의 가장 큰 차이점은?",
       options: ["Mutex는 소유권(Ownership)이 있어 락을 건 스레드만 해제할 수 있다.", "Semaphore는 한 번에 하나의 스레드만 접근 가능하다.", "Mutex는 카운팅 기능이 있다.", "차이점이 없다."],
       correctIndex: 0,
       category: "OS"
     },
     {
-      id: 29,
+      id: 49,
       text: "C언어에서 구조체 멤버 정렬(Structure Padding)이 발생하는 이유는?",
       options: ["메모리를 절약하기 위해", "CPU의 메모리 접근 효율성을 높이기 위해", "컴파일러 버그 때문에", "코드 가독성을 위해"],
       correctIndex: 1,
       category: "C Language"
     },
     {
-      id: 30,
+      id: 50,
       text: "부동 소수점(Floating Point) 연산을 임베디드 시스템에서 주의해서 사용해야 하는 이유는?",
       options: ["정확도가 너무 높아서", "FPU(Floating Point Unit)가 없는 MCU에서는 연산 속도가 매우 느려질 수 있어서", "C언어에서 지원하지 않아서", "메모리를 전혀 사용하지 않아서"],
       correctIndex: 1,
       category: "Performance"
+    },
+    {
+      id: 51,
+      text: "DMA(Direct Memory Access)의 주된 역할은?",
+      options: ["CPU 개입 없이 메모리와 주변장치 간 데이터를 전송하여 CPU 부하를 줄인다.", "메모리 용량을 동적으로 늘린다.", "네트워크 패킷을 암호화한다.", "전원 공급을 관리한다."],
+      correctIndex: 0,
+      category: "Computer Architecture"
+    },
+    {
+      id: 52,
+      text: "SPI(Serial Peripheral Interface) 통신의 특징이 아닌 것은?",
+      options: ["4선식(MISO, MOSI, SCK, CS) 방식을 주로 사용한다.", "I2C보다 전송 속도가 빠르다.", "반이중(Half Duplex) 통신만 지원한다.", "Master-Slave 구조를 가진다."],
+      correctIndex: 2,
+      category: "Communication"
+    },
+    {
+      id: 53,
+      text: "임베디드 시스템에서 풀업(Pull-up) 저항을 사용하는 이유는?",
+      options: ["전류를 증폭시키기 위해", "플로팅(Floating) 상태를 방지하고 입력 신호를 High 레벨로 고정하기 위해", "열을 발생시키기 위해", "전압을 낮추기 위해"],
+      correctIndex: 1,
+      category: "Electronics"
+    },
+    {
+      id: 54,
+      text: "Stack Overflow가 발생하는 원인으로 적절하지 않은 것은?",
+      options: ["재귀 함수(Recursive Function)의 깊이가 너무 깊을 때", "지역 변수로 너무 큰 배열을 선언했을 때", "동적 메모리(malloc) 할당을 해제하지 않았을 때", "무한 루프에 빠진 재귀 호출"],
+      correctIndex: 2,
+      category: "Memory"
+    },
+    {
+      id: 55,
+      text: "C언어의 비트 연산자 중 특정 비트를 0으로 만드는(Clear) 연산은?",
+      options: ["OR (|)", "AND (&) 와 NOT (~)", "XOR (^)", "Shift (<<)"],
+      correctIndex: 1,
+      category: "C Language"
+    },
+    {
+      id: 56,
+      text: "부트로더(Bootloader)가 실행되는 시점과 역할은?",
+      options: ["OS 실행 중 백그라운드에서 실행된다.", "전원 인가 후 가장 먼저 실행되며, 하드웨어를 초기화하고 OS 커널을 메모리에 로드한다.", "컴파일 타임에 실행되어 코드를 최적화한다.", "인터럽트 발생 시 실행된다."],
+      correctIndex: 1,
+      category: "System Startup"
+    },
+    {
+      id: 57,
+      text: "캐시 일관성(Cache Coherency) 문제가 발생하는 상황은?",
+      options: ["단일 코어 시스템에서 프로그램 실행 시", "멀티 코어 시스템이나 DMA가 사용될 때, 메인 메모리와 캐시 메모리의 값이 불일치할 때", "하드디스크 용량이 부족할 때", "네트워크 속도가 느릴 때"],
+      correctIndex: 1,
+      category: "Computer Architecture"
+    },
+    {
+      id: 58,
+      text: "ADC(Analog to Digital Converter)의 분해능(Resolution)이 10bit이고 기준 전압이 3.3V일 때, 1 LSB(Least Significant Bit)의 대략적인 전압 값은?",
+      options: ["약 3.2mV", "약 1mV", "약 33mV", "약 0.3V"],
+      correctIndex: 0,
+      category: "Electronics"
+    },
+    {
+      id: 59,
+      text: "임베디드 디버깅 장비인 로직 분석기(Logic Analyzer)의 주된 용도는?",
+      options: ["소스 코드의 문법 오류를 찾는다.", "디지털 신호의 파형을 시간 축에 따라 캡처하고 분석한다.", "아날로그 전압의 미세한 변화를 측정한다.", "메모리 누수를 탐지한다."],
+      correctIndex: 1,
+      category: "Tools"
+    },
+    {
+      id: 60,
+      text: "우선순위 역전(Priority Inversion) 현상을 해결하기 위한 기법은?",
+      options: ["우선순위 상속(Priority Inheritance)", "라운드 로빈 스케줄링", "인터럽트 비활성화", "워치독 타이머 리셋"],
+      correctIndex: 0,
+      category: "RTOS"
     }
   ]
 };
