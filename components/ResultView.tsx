@@ -32,28 +32,43 @@ export const ResultView: React.FC<ResultViewProps> = ({ analysis, userProfile, r
       await new Promise(resolve => setTimeout(resolve, 100));
 
       const canvas = await html2canvas(element, {
-        scale: 2,
+        scale: 2, // Retain high quality
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        // Ensure we capture the full scroll height/width
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
       });
 
       const imgData = canvas.toDataURL('image/png');
+      
+      // Initialize PDF (Portrait, mm, A4)
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      // Define margins
+      const margin = 10;
+      const availableWidth = pdfWidth - (margin * 2);
+      const availableHeight = pdfHeight - (margin * 2);
+
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+
+      // Calculate the scale factor to fit the image completely within the page
+      const ratio = Math.min(availableWidth / imgWidth, availableHeight / imgHeight);
       
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 10;
+      const finalImgWidth = imgWidth * ratio;
+      const finalImgHeight = imgHeight * ratio;
 
-      // Adjust height to fit page, if it's too long, we might just scale to fit A4 width
-      const finalImgWidth = pdfWidth - 20; // 10mm margin
-      const finalImgHeight = (imgHeight * finalImgWidth) / imgWidth;
+      // Center the image horizontally
+      const x = (pdfWidth - finalImgWidth) / 2;
+      
+      // Center the image vertically if it's smaller than the page height, or place at margin top
+      const y = (pdfHeight - finalImgHeight) / 2 > margin ? (pdfHeight - finalImgHeight) / 2 : margin;
 
-      pdf.addImage(imgData, 'PNG', 10, 10, finalImgWidth, finalImgHeight);
+      pdf.addImage(imgData, 'PNG', x, y, finalImgWidth, finalImgHeight);
       pdf.save(`${userProfile.name}_${role}_ZiAdvisor_Report.pdf`);
     } catch (error) {
       console.error('PDF Generation Failed', error);
@@ -72,7 +87,7 @@ export const ResultView: React.FC<ResultViewProps> = ({ analysis, userProfile, r
         <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-10 text-center relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-indigo-500" />
           <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">
-            진단 결과 리포트
+            Zi Advisor 진단 결과
           </h1>
           <p className="text-slate-500 text-lg">
             <span className="font-semibold text-slate-800">{userProfile.name}</span>님 ({userProfile.age}세)의 <span className="text-primary font-bold">{role}</span> 직무 준비도
