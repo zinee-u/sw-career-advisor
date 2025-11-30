@@ -261,7 +261,7 @@ const App: React.FC = () => {
 
       <footer className="w-full bg-white py-6 border-t border-slate-200 mt-auto">
         <div className="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400">
-          <p>&copy; {new Date().getFullYear()} Zi Advisor All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} github: zinee-u All rights reserved.</p>
           <p className="mt-1">Powered by Google Gemini API</p>
         </div>
       </footer>
