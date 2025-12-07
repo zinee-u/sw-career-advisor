@@ -4,6 +4,7 @@ export const JOB_DESCRIPTIONS: Record<JobRole, string> = {
   [JobRole.FRONTEND]: "웹사이트의 사용자 인터페이스(UI)와 사용자 경험(UX)을 구현하는 기술직군입니다. React, CSS, 브라우저 동작 원리에 대한 이해가 필요합니다.",
   [JobRole.BACKEND]: "서버, 데이터베이스, API 디자인 등 눈에 보이지 않는 시스템의 핵심 로직을 담당합니다. 데이터 처리, 보안, 성능 최적화가 중요합니다.",
   [JobRole.EMBEDDED]: "하드웨어를 제어하는 소프트웨어를 개발합니다. C/C++, OS 커널, 메모리 관리 및 하드웨어 인터페이스에 대한 깊은 이해가 필요합니다.",
+  [JobRole.DATA_ANALYST]: "데이터를 수집, 처리, 분석하여 비즈니스 인사이트를 도출하고 의사결정을 돕는 직군입니다. SQL, Python, 통계 지식 및 시각화 능력이 중요합니다.",
 };
 
 export const QUESTIONS: Record<JobRole, Question[]> = {
@@ -431,6 +432,148 @@ export const QUESTIONS: Record<JobRole, Question[]> = {
       options: ["우선순위 상속(Priority Inheritance)", "라운드 로빈 스케줄링", "인터럽트 비활성화", "워치독 타이머 리셋"],
       correctIndex: 0,
       category: "RTOS"
+    }
+  ],
+  [JobRole.DATA_ANALYST]: [
+    {
+      id: 61,
+      text: "SQL에서 LEFT JOIN과 INNER JOIN의 가장 큰 차이점은 무엇인가요?",
+      options: ["LEFT JOIN은 왼쪽 테이블의 모든 레코드를 포함하지만, INNER JOIN은 두 테이블의 교집합만 반환한다.", "INNER JOIN의 성능이 항상 더 빠르다.", "LEFT JOIN은 중복된 데이터를 허용하지 않는다.", "두 JOIN은 기능적으로 동일하다."],
+      correctIndex: 0,
+      category: "SQL"
+    },
+    {
+      id: 62,
+      text: "P-value(유의확률)에 대한 설명으로 가장 적절한 것은?",
+      options: ["귀무가설이 틀렸을 확률", "대립가설이 맞을 확률", "귀무가설이 사실일 때, 관측된 데이터와 같거나 더 극단적인 데이터가 나타날 확률", "데이터의 평균값"],
+      correctIndex: 2,
+      category: "Statistics"
+    },
+    {
+      id: 63,
+      text: "Python Pandas 라이브러리에서 DataFrame의 결측치(NaN)를 특정 값(예: 0)으로 채우는 메소드는?",
+      options: ["replace()", "fillna()", "dropna()", "isnull()"],
+      correctIndex: 1,
+      category: "Python/Pandas"
+    },
+    {
+      id: 64,
+      text: "LTV(고객 생애 가치)가 CAC(고객 획득 비용)보다 중요한 이유는 무엇인가요?",
+      options: ["고객 한 명으로부터 얻는 총이익이 고객을 데려오는 비용보다 커야 비즈니스가 지속 가능하기 때문", "LTV가 높으면 항상 매출이 높기 때문", "CAC는 계산하기 너무 어렵기 때문", "LTV와 CAC는 서로 관련 없는 지표이기 때문"],
+      correctIndex: 0,
+      category: "Business Acumen"
+    },
+    {
+      id: 65,
+      text: "데이터 웨어하우스에서 OLTP와 OLAP 시스템의 주된 차이점은 무엇인가요?",
+      options: ["OLTP는 분석용, OLAP은 트랜잭션 처리용이다.", "OLTP는 대량의 과거 데이터를 저장한다.", "OLAP은 실시간 데이터 업데이트에 최적화되어 있다.", "OLTP는 빠른 트랜잭션 처리에, OLAP은 복잡한 쿼리와 분석에 최적화되어 있다."],
+      correctIndex: 3,
+      category: "Data Engineering"
+    },
+    {
+      id: 66,
+      text: "시간에 따른 연속적인 데이터의 변화 추세를 시각화하기에 가장 적합한 차트 유형은?",
+      options: ["라인 차트 (Line Chart)", "파이 차트 (Pie Chart)", "막대 차트 (Bar Chart)", "산점도 (Scatter Plot)"],
+      correctIndex: 0,
+      category: "Data Visualization"
+    },
+    {
+      id: 67,
+      text: "'고객의 이탈 여부(이탈/유지)'를 예측하는 문제는 어떤 유형의 머신러닝에 속하는가?",
+      options: ["분류 (Classification)", "회귀 (Regression)", "군집화 (Clustering)", "강화학습 (Reinforcement Learning)"],
+      correctIndex: 0,
+      category: "Machine Learning"
+    },
+    {
+      id: 68,
+      text: "SQL에서 `GROUP BY` 절과 함께 사용되며, 그룹화된 결과에 대한 조건을 필터링하는 구문은?",
+      options: ["WHERE", "HAVING", "LIMIT", "ORDER BY"],
+      correctIndex: 1,
+      category: "SQL"
+    },
+    {
+      id: 69,
+      text: "A/B 테스트에서 '통계적 유의성'을 확보했다는 것은 무엇을 의미하는가?",
+      options: ["A안과 B안의 차이가 매우 크다는 것", "관찰된 결과가 우연에 의한 것이 아닐 가능성이 높다는 것", "테스트에 참여한 사용자 수가 충분하다는 것", "모든 사용자가 동일한 경험을 했다는 것"],
+      correctIndex: 1,
+      category: "Statistics"
+    },
+    {
+      id: 70,
+      text: "ETL 프로세스에서 'Transform(변환)' 단계의 역할로 가장 적절한 것은?",
+      options: ["여러 소스에서 데이터를 추출하는 단계", "데이터를 최종 목적지에 적재하는 단계", "추출된 데이터의 형식을 맞추고 정제하는 단계", "데이터 파이프라인을 모니터링하는 단계"],
+      correctIndex: 2,
+      category: "Data Engineering"
+    },
+    {
+      id: 71,
+      text: "Python Pandas에서 여러 DataFrame을 특정 기준(key)으로 병합할 때 사용하는 함수는?",
+      options: ["merge()", "concat()", "join()", "append()"],
+      correctIndex: 0,
+      category: "Python/Pandas"
+    },
+    {
+      id: 72,
+      text: "월간 활성 사용자 수(MAU)를 올바르게 정의한 것은?",
+      options: ["한 달 동안 앱을 설치한 총 사용자 수", "특정 한 달 동안 한 번 이상 서비스를 이용한 순수 사용자 수", "매일 접속한 사용자 수의 한 달 평균", "한 달 동안 발생한 총 세션 수"],
+      correctIndex: 1,
+      category: "Business Acumen"
+    },
+    {
+      id: 73,
+      text: "데이터 모델링에서 정규화(Normalization)의 주된 목적은?",
+      options: ["데이터 검색 속도를 높이기 위해", "데이터 중복을 최소화하고 데이터 무결성을 유지하기 위해", "테이블의 개수를 최대한 늘리기 위해", "모든 데이터를 하나의 큰 테이블에 저장하기 위해"],
+      correctIndex: 1,
+      category: "Data Modeling"
+    },
+    {
+      id: 74,
+      text: "상관관계(Correlation)와 인과관계(Causation)의 차이점을 가장 잘 설명한 것은?",
+      options: ["상관관계가 높으면 항상 인과관계가 존재한다.", "인과관계는 상관관계를 의미하지 않는다.", "상관관계는 두 변수가 함께 움직이는 경향을 의미할 뿐, 하나가 다른 하나의 원인임을 의미하지는 않는다.", "두 개념은 통계학에서 동일한 의미로 사용된다."],
+      correctIndex: 2,
+      category: "Statistics"
+    },
+    {
+      id: 75,
+      text: "SQL에서 윈도우 함수(Window Function)를 사용하는 주된 이유는?",
+      options: ["데이터를 삭제하기 위해", "테이블을 생성하기 위해", "행의 집합에 대해 연산을 수행하면서도 개별 행의 결과를 유지하기 위해", "데이터베이스에 연결하기 위해"],
+      correctIndex: 2,
+      category: "SQL"
+    },
+    {
+      id: 76,
+      text: "전체에 대한 각 부분의 비율을 시각적으로 표현하기에 가장 적합한 차트는?",
+      options: ["파이 차트 (Pie Chart)", "히스토그램 (Histogram)", "라인 차트 (Line Chart)", "박스 플롯 (Box Plot)"],
+      correctIndex: 0,
+      category: "Data Visualization"
+    },
+    {
+      id: 77,
+      text: "데이터의 숨겨진 구조나 패턴을 찾아 그룹으로 묶는 군집화(Clustering)는 어떤 머신러닝 유형에 속하는가?",
+      options: ["지도학습 (Supervised Learning)", "비지도학습 (Unsupervised Learning)", "강화학습 (Reinforcement Learning)", "준지도학습 (Semi-supervised Learning)"],
+      correctIndex: 1,
+      category: "Machine Learning"
+    },
+    {
+      id: 78,
+      text: "Python NumPy 라이브러리를 사용하는 주된 이유 중 하나는?",
+      options: ["효율적인 다차원 배열 연산과 수치 계산을 위해", "웹사이트를 만들기 위해", "데이터베이스를 관리하기 위해", "자연어 처리를 위해"],
+      correctIndex: 0,
+      category: "Python/NumPy"
+    },
+    {
+      id: 79,
+      text: "이상치(Outlier)가 데이터 분석 결과에 미치는 영향으로 가장 적절한 것은?",
+      options: ["항상 데이터의 분포를 정규분포로 만든다.", "분석 결과에 아무런 영향을 미치지 않는다.", "평균, 표준편차와 같은 통계량을 왜곡시킬 수 있다.", "데이터의 신뢰도를 항상 높여준다."],
+      correctIndex: 2,
+      category: "Statistics"
+    },
+    {
+      id: 80,
+      text: "퍼널 분석(Funnel Analysis)을 통해 주로 파악하고자 하는 핵심 지표는?",
+      options: ["사용자 여정의 각 단계별 전환율 및 이탈률", "사용자의 일일 평균 접속 시간", "가장 인기 있는 기능", "서버의 응답 속도"],
+      correctIndex: 0,
+      category: "Business Acumen"
     }
   ]
 };

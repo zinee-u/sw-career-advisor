@@ -2,6 +2,7 @@ export enum JobRole {
   FRONTEND = 'Front-end',
   BACKEND = 'Back-end',
   EMBEDDED = 'Embedded SW',
+  DATA_ANALYST = '데이터 분석가',
 }
 
 export interface UserProfile {

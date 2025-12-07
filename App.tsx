@@ -162,7 +162,7 @@ const App: React.FC = () => {
       <h2 className="text-3xl font-bold text-slate-900 mb-2 text-center">희망 직무 선택</h2>
       <p className="text-slate-500 text-center mb-10">진단받고 싶은 직무 분야를 선택해주세요.</p>
       
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         {(Object.values(JobRole) as JobRole[]).map((role) => (
           <button 
             key={role}
