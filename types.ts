@@ -34,4 +34,4 @@ export interface AnalysisResponse {
   feedbackSummary: string;
 }
 
-export type AppStep = 'landing' | 'user-info' | 'role-selection' | 'quiz' | 'analyzing' | 'results';
+export type AppStep = 'landing' | 'user-info' | 'role-selection' | 'quiz' | 'analyzing' | 'results' | 'business-plan';

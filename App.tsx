@@ -3,6 +3,7 @@ import { AppStep, JobRole, UserProfile, QuizResult, AnalysisResponse } from './t
 import { QUESTIONS, JOB_DESCRIPTIONS } from './constants';
 import { QuizQuestion } from './components/QuizQuestion';
 import { ResultView } from './components/ResultView';
+import { BusinessPlan } from './components/BusinessPlan';
 import { analyzeResult } from './services/geminiService';
 
 const App: React.FC = () => {
@@ -97,8 +98,6 @@ const App: React.FC = () => {
     setCurrentQuestionIdx(0);
     setErrorMsg(null);
   };
-
-  // --- Render Helpers ---
 
   const renderLanding = () => (
     <div className="text-center space-y-8 animate-fade-in-up">
@@ -228,7 +227,7 @@ const App: React.FC = () => {
           <div className="font-bold text-xl cursor-pointer" onClick={() => step !== 'analyzing' && handleRestart()}>
             Zi <span className="text-primary">Advisor</span>
           </div>
-          {step !== 'landing' && userProfile.name && (
+          {step !== 'landing' && step !== 'business-plan' && userProfile.name && (
             <div className="text-sm font-medium text-slate-500">
               {userProfile.name} <span className="mx-1">·</span> {selectedRole || '직무 선택 전'}
             </div>
@@ -236,7 +235,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-grow flex flex-col items-center justify-center p-4 md:p-8 bg-gradient-to-br from-slate-50 to-blue-50/30">
+      <main className="flex-grow flex flex-col items-center justify-center p-4 md:p-8 bg-gradient-to-br from-slate-50 to-blue-50/30 w-full">
         {errorMsg && (
             <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-lg border border-red-200 text-sm max-w-md w-full text-center">
                 {errorMsg}
@@ -257,12 +256,19 @@ const App: React.FC = () => {
             onRestart={handleRestart} 
           />
         )}
+        {step === 'business-plan' && (
+          <BusinessPlan onBack={() => setStep('landing')} />
+        )}
       </main>
 
       <footer className="w-full bg-white py-6 border-t border-slate-200 mt-auto">
         <div className="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400">
           <p>&copy; {new Date().getFullYear()} github: zinee-u All rights reserved.</p>
-          <p className="mt-1">Powered by Google Gemini API</p>
+          <div className="mt-2 flex justify-center space-x-4">
+             <span>Powered by Google Gemini API</span>
+             <span>|</span>
+             <button onClick={() => setStep('business-plan')} className="hover:text-primary transition-colors">Business Plan</button>
+          </div>
         </div>
       </footer>
       
